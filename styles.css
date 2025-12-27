@@ -1,0 +1,33 @@
+/* Container styles */
+.smart-connection-graph-container {
+  padding: 8px;
+}
+
+/* SVG styles */
+.smart-connection-graph-container svg {
+  border-top: 1px solid var(--background-modifier-border);
+  margin-top: 8px;
+}
+
+/* Score label styles */
+.score-label {
+  text-anchor: middle;
+  pointer-events: none;
+  fill: var(--text-muted);
+  font-size: 9px;
+}
+
+/* Node label styles */
+.node-label {
+  pointer-events: none;
+  fill: var(--text-normal);
+}
+
+/* Empty state styles */
+.empty-state {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
