@@ -97,9 +97,7 @@ export default class SmartConnectionGraphPlugin extends Plugin {
     for (const leaf of leaves) {
       const view = leaf.view;
       if (view instanceof ConnectionGraphView) {
-        // Trigger re-render by calling renderGraph via a public method
-        // Since renderGraph is private, we'll trigger it through the view lifecycle
-        (view as any).renderGraph?.();
+        view.refresh();
       }
     }
   }

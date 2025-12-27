@@ -4,6 +4,16 @@ import * as d3 from 'd3';
 
 export const VIEW_TYPE_GRAPH = 'smart-connection-graph-view';
 
+// Graph rendering constants
+const GRAPH_WIDTH_DEFAULT = 320;
+const GRAPH_HEIGHT = 340;
+const FORCE_LINK_DISTANCE = 90;
+const FORCE_CHARGE_STRENGTH = -160;
+const SCORE_LABEL_OFFSET = -5;
+const NODE_RADIUS = 12;
+const NODE_LABEL_FONT_SIZE = 10;
+const NODE_LABEL_OFFSET = 25;
+
 interface GraphNode extends d3.SimulationNodeDatum {
   id: string;
   label: string;
@@ -116,6 +126,13 @@ export class ConnectionGraphView extends ItemView {
   }
 
   /**
+   * Public method to refresh the graph visualization
+   */
+  public refresh(): void {
+    this.renderGraph();
+  }
+
+  /**
    * Render the force-directed graph
    */
   private renderGraph(): void {
@@ -133,8 +150,8 @@ export class ConnectionGraphView extends ItemView {
     }
     
     // Get dimensions
-    const width = this.containerEl.clientWidth || 320;
-    const height = 340;
+    const width = this.containerEl.clientWidth || GRAPH_WIDTH_DEFAULT;
+    const height = GRAPH_HEIGHT;
     
     // Create SVG
     const svg = d3.select(this.contentEl)
@@ -146,9 +163,9 @@ export class ConnectionGraphView extends ItemView {
     this.simulation = d3.forceSimulation<GraphNode>(nodes)
       .force('link', d3.forceLink<GraphNode, GraphLink>(links)
         .id(d => d.id)
-        .distance(90)
+        .distance(FORCE_LINK_DISTANCE)
         .strength(d => Math.max(0.2, d.weight)))
-      .force('charge', d3.forceManyBody().strength(-160))
+      .force('charge', d3.forceManyBody().strength(FORCE_CHARGE_STRENGTH))
       .force('center', d3.forceCenter(width / 2, height / 2));
     
     // Draw edges
@@ -178,7 +195,7 @@ export class ConnectionGraphView extends ItemView {
       .data(nodes)
       .enter()
       .append('circle')
-      .attr('r', 12)
+      .attr('r', NODE_RADIUS)
       .attr('fill', 'var(--interactive-accent)')
       .style('cursor', 'pointer')
       .on('click', (event, d) => this.openNode(d));
@@ -191,7 +208,7 @@ export class ConnectionGraphView extends ItemView {
       .append('text')
       .attr('class', 'node-label')
       .attr('text-anchor', 'middle')
-      .attr('font-size', 10)
+      .attr('font-size', NODE_LABEL_FONT_SIZE)
       .attr('pointer-events', 'none')
       .text(d => d.label);
     
@@ -205,7 +222,7 @@ export class ConnectionGraphView extends ItemView {
       
       scoreLabel
         .attr('x', d => ((d.source as GraphNode).x! + (d.target as GraphNode).x!) / 2)
-        .attr('y', d => ((d.source as GraphNode).y! + (d.target as GraphNode).y!) / 2 - 5);
+        .attr('y', d => ((d.source as GraphNode).y! + (d.target as GraphNode).y!) / 2 + SCORE_LABEL_OFFSET);
       
       node
         .attr('cx', d => d.x || 0)
@@ -213,7 +230,7 @@ export class ConnectionGraphView extends ItemView {
       
       nodeLabel
         .attr('x', d => d.x || 0)
-        .attr('y', d => (d.y || 0) + 25);
+        .attr('y', d => (d.y || 0) + NODE_LABEL_OFFSET);
     });
   }
 

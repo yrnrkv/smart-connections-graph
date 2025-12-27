@@ -4,6 +4,8 @@ export interface ConnectionSuggestion {
   targetPath?: string;
 }
 
+const TITLE_TRUNCATE_LENGTH = 8;
+
 /**
  * Truncate title by removing .md extension and shortening if needed
  */
@@ -11,13 +13,13 @@ export function truncateTitle(title: string): string {
   // Strip trailing .md (case-insensitive)
   let result = title.replace(/\.md$/i, '');
   
-  // If length <= 8, return full
-  if (result.length <= 8) {
+  // If length <= TITLE_TRUNCATE_LENGTH, return full
+  if (result.length <= TITLE_TRUNCATE_LENGTH) {
     return result;
   }
   
-  // Otherwise, first 8 chars + "..."
-  return result.substring(0, 8) + '...';
+  // Otherwise, first TITLE_TRUNCATE_LENGTH chars + "..."
+  return result.substring(0, TITLE_TRUNCATE_LENGTH) + '...';
 }
 
 /**
