@@ -221,8 +221,16 @@ export class ConnectionGraphView extends ItemView {
         .attr('y2', d => (d.target as GraphNode).y || 0);
       
       scoreLabel
-        .attr('x', d => ((d.source as GraphNode).x! + (d.target as GraphNode).x!) / 2)
-        .attr('y', d => ((d.source as GraphNode).y! + (d.target as GraphNode).y!) / 2 + SCORE_LABEL_OFFSET);
+        .attr('x', d => {
+          const sourceX = (d.source as GraphNode).x || 0;
+          const targetX = (d.target as GraphNode).x || 0;
+          return (sourceX + targetX) / 2;
+        })
+        .attr('y', d => {
+          const sourceY = (d.source as GraphNode).y || 0;
+          const targetY = (d.target as GraphNode).y || 0;
+          return (sourceY + targetY) / 2 + SCORE_LABEL_OFFSET;
+        });
       
       node
         .attr('cx', d => d.x || 0)
@@ -239,12 +247,14 @@ export class ConnectionGraphView extends ItemView {
    */
   private openNode(node: GraphNode): void {
     const target = node.id;
+    const activeFile = this.app.workspace.getActiveFile();
+    const sourcePath = activeFile?.path || '';
     
     // Try using metadataCache to resolve the link
     try {
-      const file = this.app.metadataCache.getFirstLinkpathDest(target, '');
+      const file = this.app.metadataCache.getFirstLinkpathDest(target, sourcePath);
       if (file) {
-        this.app.workspace.openLinkText(file.path, '', false);
+        this.app.workspace.openLinkText(file.path, sourcePath, false);
         return;
       }
     } catch (e) {
@@ -252,7 +262,7 @@ export class ConnectionGraphView extends ItemView {
     }
     
     // Fallback: open link text directly
-    this.app.workspace.openLinkText(target, '', false);
+    this.app.workspace.openLinkText(target, sourcePath, false);
   }
 
   /**
