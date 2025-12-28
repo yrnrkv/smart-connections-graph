@@ -6,6 +6,8 @@
 
 Smart Connection Graph is an Obsidian plugin that visualizes Smart Connections suggestions as an interactive force-directed graph in a right sidebar view. It automatically displays connections for your currently active note, allowing you to click on nodes to instantly open related notes. The graph refreshes automatically whenever you switch to a different note, keeping your connection visualization always up-to-date.
 
+**Prerequisites:** This plugin requires the [Smart Connections](https://github.com/brianpetro/obsidian-smart-connections) plugin to be installed and active.
+
 ## Features
 
 - **Right sidebar graph view** – Displays connections in a dedicated sidebar pane without cluttering your main workspace
@@ -29,4 +31,3 @@ Smart Connection Graph is an Obsidian plugin that visualizes Smart Connections s
    - `styles.css`
 4. Restart Obsidian or reload the app
 5. Go to **Settings → Community plugins** and enable "Smart Connection Graph"
-6. The plugin requires the **Smart Connections** plugin to be installed and active
