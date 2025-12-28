@@ -1,9 +1,9 @@
 {
-  "id": "smart-connections-graph",
-  "name": "Smart Connections Graph",
-  "version": "1.0.0",
+  "id": "smart-connection-graph",
+  "name": "Smart Connection Graph",
+  "version": "1.0.1",
   "minAppVersion": "1.5.0",
-  "description": "Visualize Smart Connections suggestions as an interactive force-directed graph in a sidebar view",
-  "author": "yrnrkv",
-  "isDesktopOnly": false
+  "description": "Visual graph for Smart Connections suggestions in a new sidebar",
+  "author": "Yernur + ChatGPT",
+  "isDesktopOnly": true
 }
